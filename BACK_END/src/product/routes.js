@@ -18,6 +18,7 @@ export default async function productRoutes(app) {
             },
         },
         async (request, reply) => {
+            await request.jwtVerify();
             reply.code(201);
             return app.products.create(request.body);
         }
@@ -89,6 +90,7 @@ export default async function productRoutes(app) {
             },
         },
         async (request, reply) => {
+            await request.jwtVerify();
             return app.products.delete(request.params.id);
         }
     );
@@ -112,6 +114,7 @@ export default async function productRoutes(app) {
             },
         },
         async (request) => {
+            await request.jwtVerify();
             return app.products.update(request.params.id, request.body);
         }
     );
@@ -135,6 +138,7 @@ export default async function productRoutes(app) {
             },
         },
         async (request) => {
+            await request.jwtVerify();
             return app.products.update(request.params.id, request.body);
         }
     );

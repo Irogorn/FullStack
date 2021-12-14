@@ -20,7 +20,7 @@ export default class BaseModel {
         return await this.db.collection(this.collection).find().toArray();
     }
 
-    async get(id, reply) {
+    async get(id) {
         return await this.db.collection(this.collection).findOne({
             _id: mongo.ObjectId(id),
         });

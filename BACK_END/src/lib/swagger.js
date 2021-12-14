@@ -16,6 +16,11 @@ export default async function swagger(app) {
                     description:
                         "Section that relates to all actions on the product.",
                 },
+                {
+                    name: "User",
+                    description:
+                        "Section that relates to all actions on the user.",
+                },
             ],
             host: `${process.env.HOST}:${process.env.PORT}`,
             schemes: ["http"],

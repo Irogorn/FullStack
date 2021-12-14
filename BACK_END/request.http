@@ -1,8 +1,9 @@
 POST http://localhost:3030/annonce
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWI4OWM5NDMyMjE2OWQ5ZTkyYjA3NWEiLCJpYXQiOjE2Mzk0OTA0OTV9.mhKXEyeQc1EldWTIMF2XzE9ePzPXbdOoz80AxHD1od8
 
 {
-    "nom": "test",
+    "nom": "test23",
     "prix": 1200.22,
     "description": "nawak",
     "photo": "http:images.unsplash.com/photo-1636211992838-251a43d72ad2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
@@ -34,4 +35,30 @@ Content-Type: application/json
     "photo": "http:images.unsplash.com/photo-1636211992838-251a43d72ad2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
     "categorie": "sport",
     "quantity": 2
+}
+
+####
+
+POST http://localhost:3030/signup
+Content-Type: application/json
+
+{
+    "nom": "l'haricot",
+    "prenom": "toto",
+    "age": 520,
+    "email": "t8ezer8yerr799@op.gh",
+    "password": "12134",
+    "photoProfile": "",
+    "annonces": [],
+    "panier": []
+}
+
+####
+
+POST http://localhost:3030/login
+Content-Type: application/json
+
+{
+    "email":"t8ezer8yr799@op.gh",
+    "password":"12134"
 }
