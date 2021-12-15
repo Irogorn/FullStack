@@ -1,0 +1,26 @@
+.nav {
+    background-color: lightgreen;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    font-weight: bold;
+    border-bottom: black 2px solid;
+}
+
+.buttonLeft {
+    text-decoration: none;
+    flex: 1;
+    color: black;
+    padding: 5px;
+}
+
+.buttonRight {
+    text-decoration: none;
+    justify-content: flex-end;
+    margin-right: 50px;
+    border: royalblue 2px solid;
+    border-radius: 15px;
+    padding: 5px;
+    background-color: royalblue;
+    color: whitesmoke;
+}

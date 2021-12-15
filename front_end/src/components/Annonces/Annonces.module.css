@@ -1,0 +1,34 @@
+.div {
+    border: royalblue 3px solid;
+    border-radius: 15px;
+    margin: auto;
+    margin-top: 20px;
+    width: 500px;
+    align-self: center;
+}
+
+.text {
+    text-align: center;
+}
+
+.Form {
+    display: flex;
+    flex-direction: column;
+}
+
+.Input {
+    width: 400px;
+    align-self: center;
+    margin-bottom: 10px;
+}
+
+.Button {
+    width: 100px;
+    height: 30px;
+    align-self: center;
+    margin-bottom: 10px;
+    background-color: royalblue;
+    border: royalblue 1px solid;
+    color: whitesmoke;
+    border-radius: 15px;
+}

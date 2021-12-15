@@ -40,3 +40,5 @@ export const Credential = S.object()
     .description("Contient les informations nescessaire pour se connecter")
     .prop("email", S.string().required())
     .prop("password", S.string().required());
+
+export const tok = S.object().prop("user", newUser).prop("token", S.string());

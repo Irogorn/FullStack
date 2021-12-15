@@ -4,6 +4,7 @@ import {
     userSchema,
     userCollectionSchema,
     Credential,
+    tok,
 } from "./schema.js";
 
 export default async function userRoutes(app) {
@@ -14,7 +15,7 @@ export default async function userRoutes(app) {
                 tags: ["User"],
                 body: newUser,
                 response: {
-                    201: newUser,
+                    201: tok,
                 },
             },
         },
@@ -36,7 +37,7 @@ export default async function userRoutes(app) {
             const user = await app.users.create(request.body);
             const token = app.jwt.sign({ _id: user._id });
 
-            return user;
+            return { user, token };
         }
     );
 
