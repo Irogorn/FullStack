@@ -1,0 +1,72 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    height: auto;
+}
+
+.image {
+    display: block;
+    width: 225px;
+    height: 200px;
+    align-self: center;
+    margin: 0px;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    border: blue 2px solid;
+    border-radius: 15px;
+    margin: 10px;
+    width: 250px;
+}
+
+.cat {
+    padding-left: 10px;
+}
+
+.price {
+    text-align: right;
+    padding-right: 10px;
+    color: red;
+    margin: 0px;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.load {
+    padding-left: 50%;
+    padding-top: 15%;
+}
+
+.details {
+    border: gray 2px solid;
+    border-radius: 20px;
+    background-color: gray;
+    color: whitesmoke;
+    font-size: 15px;
+    font-weight: bold;
+    width: 100px;
+    margin-bottom: 10px;
+}
+
+.buy {
+    border: green 2px solid;
+    border-radius: 20px;
+    background-color: green;
+    font-size: 15px;
+    font-weight: bold;
+    color: whitesmoke;
+    width: 100px;
+    height: 25px;
+    margin-bottom: 10px;
+}
+
+.text {
+    margin: 0px;
+    margin-left: 10px;
+}

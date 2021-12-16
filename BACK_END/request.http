@@ -17,11 +17,12 @@ GET http://localhost:3030/annonce
 
 ### 
 
-GET http://localhost:3030/annonce/61b75100d685b9f95be22c01
+GET http://localhost:3030/annonce/61bb45fc9e91d9c98254c015
 
 ### 
 
-DELETE http://localhost:3030/annonce/61b75100d685b9f95be22c00
+DELETE http://localhost:3030/annonce/61bb0682b5a5f5632c22afe7
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWI5YmVkMDM5Y2FhMThhMWQ0NGI1ZWUiLCJpYXQiOjE2Mzk2NDE5MjV9.CrxKe50UK0PkRxRyVH8lmMshc96DWCJcKoIkh1-BeI4
 
 ####
 
@@ -59,6 +60,11 @@ POST http://localhost:3030/login
 Content-Type: application/json
 
 {
-    "email":"t8ezer8yr799@op.gh",
-    "password":"12134"
+    "email":"toto@toto",
+    "password":"1234"
 }
+
+####
+
+GET http://localhost:3030/user/annonces
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWI5YmVkMDM5Y2FhMThhMWQ0NGI1ZWUiLCJpYXQiOjE2Mzk2NjQ0ODB9.TGAsqSuyjxAlKQcxHvhoT_43cAa_l2qlnQTYRrp5GWk

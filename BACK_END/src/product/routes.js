@@ -18,9 +18,19 @@ export default async function productRoutes(app) {
             },
         },
         async (request, reply) => {
-            await request.jwtVerify();
+            const userInfo = await request.jwtVerify();
+
+            const user = await app.users.get(userInfo._id);
+
+            const product = await app.products.create(request.body);
+
+            if (user) {
+                user.annonces.push(product._id);
+                await app.users.update(user._id, user);
+            }
+
             reply.code(201);
-            return app.products.create(request.body);
+            return product;
         }
     );
 
@@ -69,6 +79,28 @@ export default async function productRoutes(app) {
         }
     );
 
+    app.get(
+        "/user/annonces",
+        {
+            schema: {
+                tags: ["Product"],
+            },
+        },
+        async (request, reply) => {
+            const userInfo = await request.jwtVerify();
+
+            const user = await app.users.get(userInfo._id);
+
+            /*return await Promise.all(
+                user.annonces.map(async (id) => {
+                    return await app.products.get(id);
+                })
+            );*/
+
+            return user.annonces;
+        }
+    );
+
     app.delete(
         "/annonce/:id",
         {
@@ -90,8 +122,20 @@ export default async function productRoutes(app) {
             },
         },
         async (request, reply) => {
-            await request.jwtVerify();
-            return app.products.delete(request.params.id);
+            const userInfo = await request.jwtVerify();
+
+            const user = await app.users.get(userInfo._id);
+
+            const product = app.products.delete(request.params.id);
+
+            if (user) {
+                user.annonces = user.annonces.filter((id) => {
+                    id !== user._id;
+                });
+                await app.users.update(user._id, user);
+            }
+
+            return product;
         }
     );
 
