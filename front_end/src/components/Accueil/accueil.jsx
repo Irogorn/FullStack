@@ -48,8 +48,8 @@ export default function Accueil() {
                                     <img src={an.photo} className={styles.image}/>
                                     <h3 className={styles.text}>{an.nom}</h3>
                                     <p className={styles.text}>{an.description}</p>
-                                    <h2 className={styles.text}>{an.quantity}</h2>
-                                    <h2 className={styles.price}>{an.prix}</h2>  
+                                    <h2 className={styles.text}>Nb: {an.quantity}</h2>
+                                    <h2 className={styles.price}>{an.prix}€</h2>  
                                     <div className={styles.buttons}>
                                         <button onClick={()=>{buy(an._id)}} className={styles.buy}>Buy</button>
                                         <button className={styles.details} onClick={()=> navigation(`/annonces/${an._id}`)}>Details</button>

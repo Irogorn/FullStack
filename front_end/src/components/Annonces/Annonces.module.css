@@ -32,3 +32,48 @@
     color: whitesmoke;
     border-radius: 15px;
 }
+
+.centerButton {
+    margin-top: 20px;
+    display: flex;
+}
+
+.toggle {
+    width: 100px;
+    height: 35px;
+    background-color: green;
+    border: green 1px solid;
+    border-radius: 15px;
+    color: whitesmoke;
+    text-align: center;
+    margin: auto;
+    font-weight: bold;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.delete {
+    width: 100px;
+    height: 30px;
+    background-color: red;
+    border: red 1px solid;
+    border-radius: 15px;
+    color: whitesmoke;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.update {
+    width: 100px;
+    height: 30px;
+    background-color: green;
+    border: green 1px solid;
+    border-radius: 15px;
+    color: whitesmoke;
+    margin-bottom: 10px;
+    font-weight: bold;
+}

@@ -4,11 +4,11 @@ import styles from './Annonces.module.css'
 
 export default function Annonces() {
     const [name, setName] = useState("")
-    const [price, setPrice] = useState(0)
+    const [price, setPrice] = useState()
     const [descrip, setDescrip] = useState("")
     const [picture, setPicture] = useState("")
     const [category, setCategory] = useState("Hifi")
-    const [quantity, setQuantity] = useState(0)
+    const [quantity, setQuantity] = useState()
     const [annonceId, setAnnonceId] = useState("0")
     const {granted} = useContext(UserContext);
     const [toggle,setToggle] = useState(false);
@@ -73,14 +73,20 @@ export default function Annonces() {
     const updateAnnonce = (annonce)=>{
         setToggle(true);
         setName(annonce.nom)
+        setDescrip(annonce.description)
+        setPrice(annonce.prix)
+        setCategory(annonce.categorie)
+        setPicture(annonce.photo)
         setAnnonceId(annonce._id)
+        setQuantity(annonce.quantity)
     };
 
     const update = (event) =>{
         event.preventDefault();
         if(annonceId != ""){
+            console.log(typeof(price));
             const annonce = {nom: name, prix: price, description: descrip, photo: picture, categorie: category, quantity}
-
+console.log("AN :"+annonce);
             fetch(`/annonce/${annonceId}`, {
                 method: "PATCH",
                 headers:{"Content-type": "application/json", "Authorization":`Bearer ${granted}`},
@@ -99,7 +105,9 @@ export default function Annonces() {
 
     return (
         <>
-            <button onClick={()=> setToggle((prev)=> !prev)}>Ajouter une annonce</button>
+            <div className={styles.centerButton}>
+                <button className={styles.toggle} onClick={()=> setToggle((prev)=> !prev)}>Ajouter une annonce</button>
+            </div>
             {
                 toggle && (<div className={styles.div}>
                     <h1 className={styles.text}>Ajout d'une annonce</h1>
@@ -113,8 +121,10 @@ export default function Annonces() {
                             <option value='cloth'>Cloth</option>
                         </select>
                         <input className={styles.Input} type='number' placeholder='Quantity' value={quantity} onChange={(event)=> setQuantity(event.target.value)}/>
+                        <div className={styles.buttons}>
                         <input className={styles.Button} type='submit' value='ADD'/>
-                        <button onClick={update}>UpDate</button>
+                        <button className={styles.Button} onClick={update}>UpDate</button>
+                        </div>
                     </form>
                 </div>)
             }
@@ -123,12 +133,15 @@ export default function Annonces() {
                 listUserAnnonce.map((annonce)=>{
                     console.log(listUserAnnonce);
                     return(
-                        <div key={annonce._id}>
-                            <h1>{annonce.nom}</h1>
-                            <p>{annonce.prix}</p>
-                            <p>{annonce.description}</p>
-                            <button onClick={()=>{deleteAnnonce(annonce._id)}}>Delete</button>
-                            <button onClick={()=>{updateAnnonce(annonce)}}>UpDate</button>
+                        <div className={styles.div} key={annonce._id}>
+                            <h1 className={styles.text}>{annonce.nom}</h1>
+                            <p className={styles.text}>{annonce.prix}€</p>
+                            <p className={styles.text}>{annonce.description}</p>
+                            <div  className={styles.buttons}>
+                                <button className={styles.delete} onClick={()=>{deleteAnnonce(annonce._id)}}>Delete</button>
+                                <button className={styles.update} onClick={()=>{updateAnnonce(annonce)}}>UpDate</button>
+                            </div>
+                            
                         </div>
                     )
                 })

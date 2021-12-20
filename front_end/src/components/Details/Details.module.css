@@ -1,7 +1,8 @@
 .container {
-    display: flex;
-    flex-direction: row;
-    height: auto;
+    margin: auto;
+    margin-top: 20px;
+    width: 250px;
+    align-self: center;
 }
 
 .image {
@@ -69,4 +70,15 @@
 .text {
     margin: 0px;
     margin-left: 10px;
+}
+
+.back {
+    background-color: grey;
+    border-radius: 15px;
+    border: grey 1px solid;
+    color: whitesmoke;
+    width: 100px;
+    margin-bottom: 10px;
+    flex-flow: column;
+    align-self: center;
 }
