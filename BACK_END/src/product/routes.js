@@ -126,12 +126,13 @@ export default async function productRoutes(app) {
 
             const user = await app.users.get(userInfo._id);
 
-            const product = app.products.delete(request.params.id);
+            const product = await app.products.delete(request.params.id);
 
             if (user) {
                 user.annonces = user.annonces.filter((id) => {
-                    id !== user._id;
+                    return id != request.params.id;
                 });
+
                 await app.users.update(user._id, user);
             }
 

@@ -7,8 +7,9 @@ export default function Annonces() {
     const [price, setPrice] = useState(0)
     const [descrip, setDescrip] = useState("")
     const [picture, setPicture] = useState("")
-    const [category, setCategory] = useState("")
+    const [category, setCategory] = useState("Hifi")
     const [quantity, setQuantity] = useState(0)
+    const [annonceId, setAnnonceId] = useState("0")
     const {granted} = useContext(UserContext);
     const [toggle,setToggle] = useState(false);
     const [listID, setListId] = useState([]);
@@ -25,9 +26,10 @@ export default function Annonces() {
             .then((resultat) => resultat.json())
             .then((annonce) => {
                 //console.log(annonce);
+                setListUserAnnonce(prev=>[annonce,...prev])
             })
             .catch((error) => console.log(error));
-    }
+    };
 
     useEffect(() => {
         fetch("/user/annonces", {
@@ -40,23 +42,60 @@ export default function Annonces() {
             .catch((error) => console.log(error));
         return () => {
         }
-    }, [granted])
+    }, [granted]);
 
     useEffect(() => {
+        console.log(listID);
         listID.forEach((id)=>{
             fetch(`/annonce/${id}`)
                 .then((resultat) =>  resultat.json())
                 .then((annonce) => {
-                    setListUserAnnonce(annonce)
+                    setListUserAnnonce((prev)=>[annonce, ...prev])
                 })
                 .catch((error) => console.log(error));
         })
         return () => {
             
         }
-    }, [listID])
-        
+    }, [listID]);
 
+    const deleteAnnonce = (id) => {
+        fetch(`/annonce/${id}`,
+            {method: 'DELETE',
+            headers:{"Authorization":`Bearer ${granted}`}})
+        .then((resultat) =>  resultat.json())
+        .then(() => {
+            setListUserAnnonce(listUserAnnonce.filter((annonce)=> annonce._id != id))
+        })
+        .catch((error) => console.log(error));
+    };
+
+    const updateAnnonce = (annonce)=>{
+        setToggle(true);
+        setName(annonce.nom)
+        setAnnonceId(annonce._id)
+    };
+
+    const update = (event) =>{
+        event.preventDefault();
+        if(annonceId != ""){
+            const annonce = {nom: name, prix: price, description: descrip, photo: picture, categorie: category, quantity}
+
+            fetch(`/annonce/${annonceId}`, {
+                method: "PATCH",
+                headers:{"Content-type": "application/json", "Authorization":`Bearer ${granted}`},
+                body: JSON.stringify(annonce)})
+                .then((resultat) => resultat.json())
+                .then((annonce) => {
+                    //console.log(annonce);
+                    const newList = listUserAnnonce.filter((annonce) => annonce._id != annonceId)
+                    setListUserAnnonce(newList)
+                    setListUserAnnonce(prev=>[annonce,...prev])
+                    setToggle(false);
+                })
+                .catch((error) => console.log(error));
+        }
+    }
 
     return (
         <>
@@ -75,12 +114,24 @@ export default function Annonces() {
                         </select>
                         <input className={styles.Input} type='number' placeholder='Quantity' value={quantity} onChange={(event)=> setQuantity(event.target.value)}/>
                         <input className={styles.Button} type='submit' value='ADD'/>
+                        <button onClick={update}>UpDate</button>
                     </form>
                 </div>)
             }
             
             {
-              console.log(listUserAnnonce)
+                listUserAnnonce.map((annonce)=>{
+                    console.log(listUserAnnonce);
+                    return(
+                        <div key={annonce._id}>
+                            <h1>{annonce.nom}</h1>
+                            <p>{annonce.prix}</p>
+                            <p>{annonce.description}</p>
+                            <button onClick={()=>{deleteAnnonce(annonce._id)}}>Delete</button>
+                            <button onClick={()=>{updateAnnonce(annonce)}}>UpDate</button>
+                        </div>
+                    )
+                })
             }
             
         </>

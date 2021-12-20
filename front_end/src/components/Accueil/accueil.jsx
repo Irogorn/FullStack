@@ -1,11 +1,13 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useContext} from "react";
 import styles from './Accueil.module.css'
 import Loader from "react-loader-spinner";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from '../Context/UserContext'
 
 export default function Accueil() {
     const [annonces, setAnnonces] = useState([]);
     const navigation = useNavigate();
+    const {granted} = useContext(UserContext);
     
     useEffect(() => {
         fetch("/annonce", {
@@ -19,6 +21,17 @@ export default function Accueil() {
         return () => {
         }
     }, [])
+
+    const buy = async (id) =>{
+        fetch("/panier", {
+            method: "POST",
+            headers:{"Content-type": "application/json", "Authorization":`Bearer ${granted}`},
+            body: JSON.stringify({id})})
+            .then((resultat) => resultat.json())
+            .then((annonce) => {
+            })
+            .catch((error) => console.log(error));
+    }
 
     return (
         <>
@@ -38,7 +51,7 @@ export default function Accueil() {
                                     <h2 className={styles.text}>{an.quantity}</h2>
                                     <h2 className={styles.price}>{an.prix}</h2>  
                                     <div className={styles.buttons}>
-                                        <button className={styles.buy}>Buy</button>
+                                        <button onClick={()=>{buy(an._id)}} className={styles.buy}>Buy</button>
                                         <button className={styles.details} onClick={()=> navigation(`/annonces/${an._id}`)}>Details</button>
                                     </div>  
                                 </div>)

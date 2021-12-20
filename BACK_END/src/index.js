@@ -4,6 +4,7 @@ import { config } from "dotenv";
 import fp from "fastify-plugin";
 import product from "./product/index.js";
 import user from "./user/index.js";
+import panier from "./panier/index.js";
 import cors from "./lib/cors.js";
 import swagger from "./lib/swagger.js";
 import bcrypt from "./lib/bcrypt.js";
@@ -25,6 +26,7 @@ async function main() {
 
     app.register(fp(product));
     app.register(fp(user));
+    app.register(fp(panier));
 
     app.listen(process.env.PORT, process.env.HOST, (err) => {
         if (err) {

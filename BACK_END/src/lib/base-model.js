@@ -47,6 +47,7 @@ export default class BaseModel {
     }
 
     async update(id, updateDocument) {
+        console.log("ud: " + id);
         const objectId = mongo.ObjectId(id);
 
         const document = await this.db.collection(this.collection).findOne({
