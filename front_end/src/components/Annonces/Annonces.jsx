@@ -46,14 +46,14 @@ export default function Annonces() {
 
     useEffect(() => {
         console.log(listID);
-        listID.forEach((id)=>{
+        (listID > 0)&&(listID.forEach((id)=>{
             fetch(`/annonce/${id}`)
                 .then((resultat) =>  resultat.json())
                 .then((annonce) => {
                     setListUserAnnonce((prev)=>[annonce, ...prev])
                 })
                 .catch((error) => console.log(error));
-        })
+        }))
         return () => {
             
         }
@@ -86,14 +86,13 @@ export default function Annonces() {
         if(annonceId != ""){
             console.log(typeof(price));
             const annonce = {nom: name, prix: price, description: descrip, photo: picture, categorie: category, quantity}
-console.log("AN :"+annonce);
+
             fetch(`/annonce/${annonceId}`, {
                 method: "PATCH",
                 headers:{"Content-type": "application/json", "Authorization":`Bearer ${granted}`},
                 body: JSON.stringify(annonce)})
                 .then((resultat) => resultat.json())
                 .then((annonce) => {
-                    //console.log(annonce);
                     const newList = listUserAnnonce.filter((annonce) => annonce._id != annonceId)
                     setListUserAnnonce(newList)
                     setListUserAnnonce(prev=>[annonce,...prev])
@@ -130,7 +129,7 @@ console.log("AN :"+annonce);
             }
             
             {
-                listUserAnnonce.map((annonce)=>{
+                (listUserAnnonce > 0 )&&(listUserAnnonce.map((annonce)=>{
                     console.log(listUserAnnonce);
                     return(
                         <div className={styles.div} key={annonce._id}>
@@ -144,7 +143,7 @@ console.log("AN :"+annonce);
                             
                         </div>
                     )
-                })
+                }))
             }
             
         </>

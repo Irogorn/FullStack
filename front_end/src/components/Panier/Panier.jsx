@@ -22,14 +22,15 @@ export default function Panier() {
     }, [granted])
 
     useEffect(() => {
-        annonceId.forEach((id)=>{
+        console.log(annonceId.length > 0);
+        (annonceId.length > 0)&&(annonceId.forEach((id)=>{
             fetch(`/annonce/${id}`)
                 .then((resultat) =>  resultat.json())
                 .then((annonce) => {
                     setPanier((pre)=>[annonce,...pre])
                 })
                 .catch((error) => console.log(error));
-        })
+        }))
         return () => {
             
         }
@@ -52,14 +53,14 @@ export default function Panier() {
         <>
             <h1>Panier</h1>
             {
-                panier.map(annonce => {
+                (panier > 0 )&&(panier.map(annonce => {
                     return(<div key={annonce._id}>
                         <h1>{annonce.nom}</h1>
                         <p>{annonce.prix}</p>
                         <p>{annonce.description}</p>
                         <button onClick={()=>{supprimerPanier(annonce._id)}}>Delete</button>
                     </div>)
-                })
+                }))
             }
         </>
 
