@@ -8,9 +8,15 @@ export default function Accueil() {
     const [annonces, setAnnonces] = useState([]);
     const navigation = useNavigate();
     const {granted} = useContext(UserContext);
-    
+    const [word,setWord] = useState("");
+    const [category,setCategory] = useState("");
+    const [priceMax,setPriceMax] = useState(false);
+    const [priceMin,setPriceMin] = useState(true);
+    const [order,setOrder] = useState('ASC');
+    const [find,setFind] = useState(false);
+
     useEffect(() => {
-        fetch("/annonce", {
+        fetch(`/annonce?nom=${word}&direction=${order}&categorie=${category}`, {
             method: "GET",
             headers:{"Content-type": "application/json"}})
             .then((resultat) => resultat.json())
@@ -20,7 +26,7 @@ export default function Accueil() {
             .catch((error) => console.log(error));
         return () => {
         }
-    }, [])
+    }, [category,order,find])
 
     const buy = async (id) =>{
         fetch("/panier", {
@@ -33,8 +39,44 @@ export default function Accueil() {
             .catch((error) => console.log(error));
     }
 
+    function handleWord(event){
+        setWord(event.target.value)
+    }
+    
+    function handleMax(){
+        setPriceMax(!priceMax);
+        setPriceMin(!priceMin);
+        setOrder('DESC');
+    }
+
+    function handleMin(){
+        setPriceMax(!priceMax);
+        setPriceMin(!priceMin);
+        setOrder('ASC');
+    }
+
     return (
         <>
+            <div className={styles.search}>
+                <input className={styles.word}  type="search" placeholder="Search" onChange={handleWord} value={word}/>
+                <div className={styles.options}>
+                    <label>
+                        <input type="checkbox" checked={priceMax} onChange={handleMax}/>
+                        Prix décroissant
+                    </label>
+                    <label>
+                        <input type="checkbox" checked={priceMin} onChange={handleMin}/>
+                        Prix croissant
+                    </label>
+                    <select className={styles.category} value={category} onChange={(event)=>setCategory(event.target.value)}>
+                    <option value=''>Catégories</option>
+                        <option value='Hifi'>HiFi</option>
+                        <option value='Cloth'>Cloth</option>
+                    </select>
+                    <button className={styles.button} onClick={()=> setFind(!find)}>Search</button>
+                </div>
+                
+            </div>
             <h1>Pade d'Accueil</h1>
             {
                 (annonces.length == 0) ? <Loader className={styles.load} type="Rings" /> : (

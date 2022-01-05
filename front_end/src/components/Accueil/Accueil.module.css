@@ -85,3 +85,37 @@
     text-align: center;
     height: fit-content;
 }
+
+.search {
+    display: flex;
+    flex-direction: row;
+    background-color: lightgreen;
+}
+
+.word {
+    width: 700px;
+    height: 30px;
+    margin: 10px;
+    border-radius: 15px;
+    flex: 1;
+}
+
+.option {
+    justify-content: flex-end;
+    justify-items: center;
+}
+
+.category {
+    margin: 10px;
+    height: 30px;
+}
+
+.button {
+    margin: 10px;
+    height: 30px;
+    border-radius: 15px;
+    border: royalblue 2px solid;
+    background-color: royalblue;
+    color: whitesmoke;
+    font-weight: bold;
+}

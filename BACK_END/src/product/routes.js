@@ -3,6 +3,7 @@ import {
     updateProduct,
     productSchema,
     productCollectionSchema,
+    searchProduitCriteriaSchema,
 } from "./schema.js";
 
 export default async function productRoutes(app) {
@@ -39,11 +40,13 @@ export default async function productRoutes(app) {
         {
             schema: {
                 tags: ["Product"],
+                querystring: searchProduitCriteriaSchema,
                 response: { 200: productCollectionSchema },
             },
         },
-        async () => {
-            return app.products.getAll();
+        async (request) => {
+            //return app.products.getAll();
+            return app.products.search(request.query);
         }
     );
 
@@ -87,17 +90,21 @@ export default async function productRoutes(app) {
             },
         },
         async (request, reply) => {
-            const userInfo = await request.jwtVerify();
+            try {
+                const userInfo = await request.jwtVerify();
 
-            const user = await app.users.get(userInfo._id);
+                const user = await app.users.get(userInfo._id);
 
-            /*return await Promise.all(
-                user.annonces.map(async (id) => {
-                    return await app.products.get(id);
-                })
-            );*/
+                /*return await Promise.all(
+                    user.annonces.map(async (id) => {
+                        return await app.products.get(id);
+                    })
+                );*/
 
-            return user.annonces;
+                return user.annonces;
+            } catch (err) {
+                reply.send(err);
+            }
         }
     );
 

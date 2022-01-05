@@ -30,3 +30,13 @@ export const productSchema = newProduct
 export const productCollectionSchema = S.array()
     .title("CollectionProducts")
     .items(productSchema);
+
+export const searchProduitCriteriaSchema = S.object()
+    .additionalProperties(false)
+    .title("search criteria")
+    .prop("orderBy", S.enum(["prix"]))
+    .prop("direction", S.enum(["ASC", "DESC"]))
+    .prop("nom", S.string())
+    .prop("minPrice", S.number())
+    .prop("maxPrice", S.number())
+    .prop("categorie", S.string());

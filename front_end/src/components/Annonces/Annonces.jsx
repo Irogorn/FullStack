@@ -25,17 +25,16 @@ export default function Annonces() {
             body: JSON.stringify(annonce)})
             .then((resultat) => resultat.json())
             .then((annonce) => {
-                //console.log(annonce);
                 setListUserAnnonce(prev=>[annonce,...prev])
             })
-            .catch((error) => console.log(error));
+            .catch((error) =>console.log(error));
     };
 
     useEffect(() => {
         fetch("/user/annonces", {
             method: "GET",
             headers:{"Content-type": "application/json", "Authorization":`Bearer ${granted}`}})
-            .then((resultat) => resultat.json())
+            .then((resultat) =>resultat.json())
             .then((list) => {
                 setListId(list)
             })
@@ -105,7 +104,9 @@ export default function Annonces() {
     return (
         <>
             <div className={styles.centerButton}>
-                <button className={styles.toggle} onClick={()=> setToggle((prev)=> !prev)}>Ajouter une annonce</button>
+                {
+                    granted && <button className={styles.toggle} onClick={()=> setToggle((prev)=> !prev)}>Ajouter une annonce</button>
+                } 
             </div>
             {
                 toggle && (<div className={styles.div}>
