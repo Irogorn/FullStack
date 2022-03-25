@@ -44,8 +44,7 @@ export default function Annonces() {
     }, [granted]);
 
     useEffect(() => {
-        console.log(listID);
-        (listID > 0)&&(listID.forEach((id)=>{
+        (listID.length > 0)&&(listID.forEach((id)=>{
             fetch(`/annonce/${id}`)
                 .then((resultat) =>  resultat.json())
                 .then((annonce) => {
@@ -64,7 +63,7 @@ export default function Annonces() {
             headers:{"Authorization":`Bearer ${granted}`}})
         .then((resultat) =>  resultat.json())
         .then(() => {
-            setListUserAnnonce(listUserAnnonce.filter((annonce)=> annonce._id != id))
+            setListUserAnnonce(listUserAnnonce.filter((annonce)=> annonce._id !== id))
         })
         .catch((error) => console.log(error));
     };
@@ -82,7 +81,7 @@ export default function Annonces() {
 
     const update = (event) =>{
         event.preventDefault();
-        if(annonceId != ""){
+        if(annonceId !== ""){
             console.log(typeof(price));
             const annonce = {nom: name, prix: price, description: descrip, photo: picture, categorie: category, quantity}
 
@@ -92,7 +91,7 @@ export default function Annonces() {
                 body: JSON.stringify(annonce)})
                 .then((resultat) => resultat.json())
                 .then((annonce) => {
-                    const newList = listUserAnnonce.filter((annonce) => annonce._id != annonceId)
+                    const newList = listUserAnnonce.filter((annonce) => annonce._id !== annonceId)
                     setListUserAnnonce(newList)
                     setListUserAnnonce(prev=>[annonce,...prev])
                     setToggle(false);
@@ -117,8 +116,8 @@ export default function Annonces() {
                         <input className={styles.Input} type='text' placeholder='Description' value={descrip} onChange={(event)=> setDescrip(event.target.value)}/>
                         <input className={styles.Input} type='text' placeholder='Path' value={picture} onChange={(event)=> setPicture(event.target.value)}/>
                         <select className={styles.Input} value={category} onChange={(event)=> setCategory(event.target.value)}>
-                            <option value='hifi'>HiFi</option>
-                            <option value='cloth'>Cloth</option>
+                            <option value='HiFi'>HiFi</option>
+                            <option value='Cloth'>Cloth</option>
                         </select>
                         <input className={styles.Input} type='number' placeholder='Quantity' value={quantity} onChange={(event)=> setQuantity(event.target.value)}/>
                         <div className={styles.buttons}>
@@ -130,7 +129,7 @@ export default function Annonces() {
             }
             
             {
-                (listUserAnnonce > 0 )&&(listUserAnnonce.map((annonce)=>{
+                (listUserAnnonce.length > 0 )&&(listUserAnnonce.map((annonce)=>{
                     console.log(listUserAnnonce);
                     return(
                         <div className={styles.div} key={annonce._id}>

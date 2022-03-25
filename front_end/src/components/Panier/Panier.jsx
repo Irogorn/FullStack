@@ -13,7 +13,6 @@ export default function Panier() {
             })
             .then((resultat) => resultat.json())
             .then((annonceiD) => {
-                console.log(annonceiD);
                 setAnnonceId(annonceiD)
             })
             .catch((error) => console.log(error));
@@ -43,7 +42,7 @@ export default function Panier() {
             })
             .then((resultat) => resultat.json())
             .then(() => {
-                const newList = panier.filter((annonce)=> annonce._id != id)
+                const newList = panier.filter((annonce)=> annonce._id !== id)
                 setPanier(newList)
             })
             .catch((error) => console.log(error));
@@ -53,7 +52,7 @@ export default function Panier() {
         <>
             <h1>Panier</h1>
             {
-                (panier > 0 )&&(panier.map(annonce => {
+                (panier.length > 0 )&&(panier.map(annonce => {
                     return(<div key={annonce._id}>
                         <h1>{annonce.nom}</h1>
                         <p>{annonce.prix}</p>

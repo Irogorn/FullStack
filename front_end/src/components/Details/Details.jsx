@@ -19,7 +19,7 @@ export default function Details() {
         return () => {
             
         }
-    }, [])
+    }, [id])
     
     return (
         <div>

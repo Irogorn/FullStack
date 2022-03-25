@@ -1,21 +1,23 @@
 import React, {useEffect, useState, useContext} from "react";
 import styles from './Accueil.module.css'
 import Loader from "react-loader-spinner";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { UserContext } from '../Context/UserContext'
 
 export default function Accueil() {
+    const [paramsUrl, setParamsUrl] = useSearchParams();
     const [annonces, setAnnonces] = useState([]);
     const navigation = useNavigate();
     const {granted} = useContext(UserContext);
-    const [word,setWord] = useState("");
-    const [category,setCategory] = useState("");
+    const [word,setWord] = useState(paramsUrl.get("nom") === null ? "" : paramsUrl.get("nom"));
+    const [category,setCategory] = useState(paramsUrl.get("categorie") === null ? "" : paramsUrl.get("categorie"));
     const [priceMax,setPriceMax] = useState(false);
     const [priceMin,setPriceMin] = useState(true);
-    const [order,setOrder] = useState('ASC');
+    const [order,setOrder] = useState(paramsUrl.get("direction") === null ? 'ASC' : paramsUrl.get("direction"));
     const [find,setFind] = useState(false);
 
-    useEffect(() => {
+    useEffect(() => {   
+        setParamsUrl(`?nom=${word}&direction=${order}&categorie=${category}`);
         fetch(`/annonce?nom=${word}&direction=${order}&categorie=${category}`, {
             method: "GET",
             headers:{"Content-type": "application/json"}})
@@ -26,9 +28,10 @@ export default function Accueil() {
             .catch((error) => console.log(error));
         return () => {
         }
-    }, [category,order,find])
+    }, [find])
 
     const buy = async (id) =>{
+        console.log("BUY");
         fetch("/panier", {
             method: "POST",
             headers:{"Content-type": "application/json", "Authorization":`Bearer ${granted}`},
@@ -39,20 +42,34 @@ export default function Accueil() {
             .catch((error) => console.log(error));
     }
 
-    function handleWord(event){
-        setWord(event.target.value)
+    const handleWord = (event) => {
+            if(event.target.value.length === 0){
+                setFind(!find);
+                setWord("");
+            }
+            else{
+                setWord(event.target.value);
+            }
+    }
+
+    const  handleCategory = (event) =>
+    {
+        setCategory(event.target.value)
+        setFind(!find);
     }
     
     function handleMax(){
         setPriceMax(!priceMax);
         setPriceMin(!priceMin);
         setOrder('DESC');
+        setFind(!find);
     }
 
     function handleMin(){
         setPriceMax(!priceMax);
         setPriceMin(!priceMin);
         setOrder('ASC');
+        setFind(!find);
     }
 
     return (
@@ -68,8 +85,8 @@ export default function Accueil() {
                         <input type="checkbox" checked={priceMin} onChange={handleMin}/>
                         Prix croissant
                     </label>
-                    <select className={styles.category} value={category} onChange={(event)=>setCategory(event.target.value)}>
-                    <option value=''>Catégories</option>
+                    <select className={styles.category} value={category} onChange={handleCategory}>
+                        <option value=''>Catégories</option>
                         <option value='Hifi'>HiFi</option>
                         <option value='Cloth'>Cloth</option>
                     </select>
@@ -79,7 +96,7 @@ export default function Accueil() {
             </div>
             <h1>Pade d'Accueil</h1>
             {
-                (annonces.length == 0) ? <Loader className={styles.load} type="Rings" /> : (
+                (annonces.length === 0) ? <Loader className={styles.load} type="Rings" /> : (
                     <div className={styles.container}>
                         {
                             annonces.map((an)=>
